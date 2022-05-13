@@ -1,2 +1,1 @@
-## GyverLibs Weekly Views
-[Main page](https://gyverlibs.github.io/)
+## [GyverLibs Weekly Views](https://gyverlibs.github.io/)
