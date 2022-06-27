@@ -1,5 +1,0 @@
-name: Library Update
-on: [push]
-jobs:
-  Test-echo:
-    run: echo "🍏 This job's status is ${{ job.status }}."
