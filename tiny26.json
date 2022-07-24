@@ -1,0 +1,30 @@
+{
+  "packages": [
+    {
+      "name": "Tiny26",
+      "maintainer": "AlexGyver",
+      "websiteURL": "https://alexgyver.ru",
+      "email": "",
+      "help": {
+        "online": "https://github.com/AlexGyver/GyverCore"
+      },
+      "platforms": [        
+		{
+          "name": "Tiny26",
+          "architecture": "avr",
+          "version": "1.0.0",
+          "category": "Contributed",
+		  "url": "https://github.com/GyverLibs/testCore/releases/download/1.0.0/Tiny26.zip",
+          "archiveFileName": "Tiny26.zip",
+          "checksum": "MD5:11e70212f7722cf1b742369108f745cb",
+          "size": "28318",
+          "boards": [
+            {"name": "Tiny26"}
+          ],
+          "toolsDependencies": []
+        }
+      ],
+      "tools": []
+    }
+  ]
+}
