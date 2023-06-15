@@ -35,7 +35,7 @@
 
   <script>
     async function loadJSON() {
-      const response = await fetch("traf.json");
+      const response = await fetch("traf.json", {cache: "no-store"});
       const json = await response.json();
       show(json);
     }
