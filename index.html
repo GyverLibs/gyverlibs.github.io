@@ -9,11 +9,13 @@
       margin: 0;
       padding: 0;
     }
+
     h1,
     h2 {
       margin: 5px 0;
       text-align: center;
     }
+
     .cont {
       width: 95%;
       margin: auto;
@@ -24,8 +26,10 @@
 
 <body>
   <h1>GyverLibs Weekly Views</h1>
-  <h2>Total</h2>
+  <h2 id="total_h">Total</h2>
   <div class="cont" id="total"></div>
+  <div class="cont" id="total_max"></div>
+
   <h2>Libs</h2>
   <div class="cont" id="libs"></div>
 
@@ -38,28 +42,65 @@
     function show(json) {
       let total = { data: json['total'], name: "Total" };
       let libs = [];
+      let total_data = []
+      let total_total = 0;
+      for (let i in json['total']) {
+        total_total += json['total'][i][1];
+      }
+      document.getElementById('total_h').innerHTML = 'Total ' + total_total;
       for (let key in json) {
-        if (key != 'total') libs.push({ data: json[key], name: key });
+        if (key != 'total') {
+          libs.push({ data: json[key], name: key });
+          let views = 0;
+          for (let week in json[key]) {
+            views += json[key][week][1];
+          }
+          total_data.push([key, views]);
+        }
       }
 
       Highcharts.stockChart('total', {
+        chart: {},
+        time: { useUTC: false },
+        plotOptions: {
+          series: { animation: false }
+        },
         series: [total],
-        "chart": {},
-        "time": {
-          "useUTC": false
-        }
+      });
+      chart = Highcharts.chart('total_max', {
+        chart: { height: 1500 },
+        title: { text: null },
+        xAxis: { type: 'category' },
+        legend: { enabled: false },
+        yAxis: {
+          opposite: true,
+          tickPixelInterval: 50,
+          title: { text: null }
+        },
+        plotOptions: {
+          series: {
+            animation: false,
+            groupPadding: 0,
+            colorByPoint: true,
+            dataSorting: {
+              enabled: true,
+              matchByName: true
+            },
+            type: 'bar'
+          }
+        },
+        series: [
+          { type: 'bar', data: total_data }
+        ],
       });
       Highcharts.stockChart('libs', {
+        chart: { height: 2000 },
+        tooltip: { padding: 0 },
+        time: { useUTC: false },
+        plotOptions: {
+          series: { animation: false }
+        },
         series: libs,
-        "chart": {
-          "height": 2000
-        },
-        "tooltip": {
-          "padding": 0
-        },
-        "time": {
-          "useUTC": false
-        }
       });
     }
 
