@@ -55,7 +55,7 @@
           for (let week in json[key]) {
             views += json[key][week][1];
           }
-          total_data.push([key, views]);
+          if (views > 100) total_data.push([key, views]);
         }
       }
 
@@ -67,8 +67,9 @@
         },
         series: [total],
       });
+
       chart = Highcharts.chart('total_max', {
-        chart: { height: 1500 },
+        chart: { height: 1700 },
         title: { text: null },
         xAxis: { type: 'category' },
         legend: { enabled: false },
@@ -93,6 +94,7 @@
           { type: 'bar', data: total_data }
         ],
       });
+
       Highcharts.stockChart('libs', {
         chart: { height: 2000 },
         tooltip: { padding: 0 },
