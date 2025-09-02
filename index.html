@@ -3,17 +3,20 @@
 
 <head>
   <script src="https://code.highcharts.com/stock/highstock.js"></script>
+  <script src="https://code.highcharts.com/themes/dark-unica.js"></script>
   <style>
     body {
       font-family: monospace;
       margin: 0;
       padding: 0;
+      background-color: black;
     }
 
     h1,
     h2 {
       margin: 5px 0;
       text-align: center;
+      color: aliceblue;
     }
 
     .cont {
@@ -45,6 +48,7 @@
       show(json);
     }
     function show(json) {
+      
       let total = { data: json['total'], name: "Total" };
       let libs = [];
       let total_data = []
