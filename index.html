@@ -2,158 +2,158 @@
 <html>
 
 <head>
-  <script src="https://code.highcharts.com/stock/highstock.js"></script>
-  <style>
-    body {
-      font-family: monospace;
-      margin: 0;
-      padding: 0;
-    }
+    <script src="highstock.js"></script>
+    <style>
+        body {
+            font-family: monospace;
+            margin: 0;
+            padding: 0;
+        }
 
-    h1,
-    h2 {
-      margin: 5px 0;
-      text-align: center;
-    }
+        h1,
+        h2 {
+            margin: 5px 0;
+            text-align: center;
+        }
 
-    .cont {
-      width: 95%;
-      margin: auto;
-      padding: 5px;
-    }
-  </style>
+        .cont {
+            width: 95%;
+            margin: auto;
+            padding: 5px;
+        }
+    </style>
 </head>
 
 <body>
-  <h1>GyverLibs Weekly Views</h1>
-  <h2 id="total_h">Total</h2>
-  <div class="cont" id="total"></div>
+    <h1>GyverLibs Weekly Views</h1>
+    <h2 id="total_h">Total</h2>
+    <div class="cont" id="total"></div>
 
-  <h2>Trending (1 mo)</h2>
-  <div class="cont" id="trending"></div>
+    <h2>Trending (1 mo)</h2>
+    <div class="cont" id="trending"></div>
 
-  <h2>TOP 50</h2>
-  <div class="cont" id="total_max"></div>
+    <h2>TOP 50</h2>
+    <div class="cont" id="total_max"></div>
 
-  <h2>Weekly</h2>
-  <div class="cont" id="all"></div>
+    <h2>Weekly</h2>
+    <div class="cont" id="all"></div>
 
-  <script>
-    async function loadJSON() {
-      const response = await fetch("traf.json", { cache: "no-store" });
-      const json = await response.json();
-      show(json);
-    }
-    function show(json) {
-      let total = { data: json['total'], name: "Total" };
-      let libs = [];
-      let total_data = []
-
-      let total_total = 0;
-      for (let i in json['total']) {
-        total_total += json['total'][i][1];
-      }
-      document.getElementById('total_h').innerHTML = 'Total ' + total_total.toLocaleString('ru');
-
-      // ======= TOTAL =======
-      Highcharts.stockChart('total', {
-        chart: {},
-        time: { useUTC: false },
-        plotOptions: {
-          series: { animation: false }
-        },
-        series: [total],
-      });
-
-
-      // ======= TREND =======
-      let trend_data = [];
-      for (let key in json) {
-        if (key != 'total') {
-          libs.push({ data: json[key], name: key });
-          let views = 0;
-          let month = json[key].slice(json[key].length - 4);
-          for (let week in month) {
-            views += month[week][1];
-          }
-          //if (views > 1000) 
-          trend_data.push([key, views]);
+    <script>
+        async function loadJSON() {
+            const response = await fetch("traf.json", { cache: "no-store" });
+            const json = await response.json();
+            show(json);
         }
-      }
+        function show(json) {
+            let total = { data: json['total'], name: "Total" };
+            let libs = [];
+            let total_data = []
 
-      Highcharts.chart('trending', {
-        chart: { height: 300 },
-        title: { text: null },
-        xAxis: { type: 'category' },
-        legend: { enabled: false },
-        yAxis: {
-          opposite: true,
-          tickPixelInterval: 50,
-          title: { text: null }
-        },
-        plotOptions: {
-          series: {
-            animation: false,
-            groupPadding: 0,
-            colorByPoint: true,
-            type: 'bar'
-          }
-        },
-        series: [
-          { type: 'bar', data: trend_data.sort((a, b) => b[1] - a[1]).slice(0, 12) }
-        ],
-      });
+            let total_total = 0;
+            for (let i in json['total']) {
+                total_total += json['total'][i][1];
+            }
+            document.getElementById('total_h').innerHTML = 'Total ' + total_total.toLocaleString('ru');
 
-      // ======= TOTAL =======
-      for (let key in json) {
-        if (key != 'total') {
-          libs.push({ data: json[key], name: key });
-          let views = 0;
-          for (let week in json[key]) {
-            views += json[key][week][1];
-          }
-          //if (views > 1000) 
-          total_data.push([key, views]);
+            // ======= TOTAL =======
+            Highcharts.stockChart('total', {
+                chart: {},
+                time: { useUTC: false },
+                plotOptions: {
+                    series: { animation: false }
+                },
+                series: [total],
+            });
+
+
+            // ======= TREND =======
+            let trend_data = [];
+            for (let key in json) {
+                if (key != 'total') {
+                    libs.push({ data: json[key], name: key });
+                    let views = 0;
+                    let month = json[key].slice(json[key].length - 4);
+                    for (let week in month) {
+                        views += month[week][1];
+                    }
+                    //if (views > 1000) 
+                    trend_data.push([key, views]);
+                }
+            }
+
+            Highcharts.chart('trending', {
+                chart: { height: 330 },
+                title: { text: null },
+                xAxis: { type: 'category' },
+                legend: { enabled: false },
+                yAxis: {
+                    opposite: true,
+                    tickPixelInterval: 50,
+                    title: { text: null }
+                },
+                plotOptions: {
+                    series: {
+                        animation: false,
+                        groupPadding: 0,
+                        colorByPoint: true,
+                        type: 'bar'
+                    }
+                },
+                series: [
+                    { type: 'bar', data: trend_data.sort((a, b) => b[1] - a[1]).slice(0, 15) }
+                ],
+            });
+
+            // ======= TOTAL =======
+            for (let key in json) {
+                if (key != 'total') {
+                    libs.push({ data: json[key], name: key });
+                    let views = 0;
+                    for (let week in json[key]) {
+                        views += json[key][week][1];
+                    }
+                    //if (views > 1000) 
+                    total_data.push([key, views]);
+                }
+            }
+
+            Highcharts.chart('total_max', {
+                chart: { height: 1000 },
+                title: { text: null },
+                xAxis: { type: 'category' },
+                legend: { enabled: false },
+                yAxis: {
+                    opposite: true,
+                    tickPixelInterval: 50,
+                    title: { text: null }
+                },
+                plotOptions: {
+                    series: {
+                        animation: false,
+                        groupPadding: 0,
+                        colorByPoint: true,
+                        type: 'bar'
+                    }
+                },
+                series: [
+                    { type: 'bar', data: total_data.sort((a, b) => b[1] - a[1]).slice(0, 50) }
+                ],
+            });
+
+            // ======= PER LIB =======
+            /*Highcharts.stockChart('all', {
+              chart: { height: 2000 },
+              tooltip: { padding: 0 },
+              time: { useUTC: false },
+              plotOptions: {
+                series: { animation: false }
+              },
+              series: libs,
+            });*/
         }
-      }
 
-      Highcharts.chart('total_max', {
-        chart: { height: 1000 },
-        title: { text: null },
-        xAxis: { type: 'category' },
-        legend: { enabled: false },
-        yAxis: {
-          opposite: true,
-          tickPixelInterval: 50,
-          title: { text: null }
-        },
-        plotOptions: {
-          series: {
-            animation: false,
-            groupPadding: 0,
-            colorByPoint: true,
-            type: 'bar'
-          }
-        },
-        series: [
-          { type: 'bar', data: total_data.sort((a, b) => b[1] - a[1]).slice(0, 50) }
-        ],
-      });
-
-      // ======= PER LIB =======
-      /*Highcharts.stockChart('all', {
-        chart: { height: 2000 },
-        tooltip: { padding: 0 },
-        time: { useUTC: false },
-        plotOptions: {
-          series: { animation: false }
-        },
-        series: libs,
-      });*/
-    }
-
-    loadJSON();
-  </script>
+        loadJSON();
+    </script>
 </body>
 
 </html>
