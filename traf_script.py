@@ -17,10 +17,10 @@ repos = git.get_user().get_repos()
 
 for repo in repos:
     if repo.name not in data: data[repo.name] = []
-    traf = repo.get_views_traffic()['views']
-    if (len(traf) < 10): continue
-    per_week = 0
-    for i in range (1, 8): per_week += traf[i].count
+    traf_obj = repo.get_views_traffic()
+    traf = traf_obj.views
+    if len(traf) < 10: continue
+    per_week = sum(traf[i].count for i in range(1, 8))
     data[repo.name].append([t, per_week])
     total += per_week
 
