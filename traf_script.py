@@ -2,10 +2,10 @@
 import time
 import json
 import os
-from github import Github
+from github import Github, Auth
 
 token = os.getenv("PAT_GITHUB")
-git = Github(token)
+git = Github(auth=Auth.Token(token))
 
 rep = git.get_repo('GyverLibs/gyverlibs.github.io')
 #if 'traf.json' not in str(rep.get_contents('')): rep.create_file('traf.json', 'create traf.json', "{}")

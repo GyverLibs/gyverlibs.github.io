@@ -24,5 +24,5 @@ jobs:
 
       - name: Run traffic collector
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAT_GITHUB: ${{ secrets.PAT_GITHUB  }}
         run: python traf_script.py
