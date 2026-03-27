@@ -4,7 +4,7 @@ import json
 import os
 from github import Github
 
-token = os.getenv("GITHUB_TOKEN")
+token = os.getenv("PAT_GITHUB")
 git = Github(token)
 
 rep = git.get_repo('GyverLibs/gyverlibs.github.io')
